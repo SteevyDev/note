@@ -5,184 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Calculateur 🇭🇹</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --dark: #0f172a;
-            --bg: #f1f5f9;
-            --error: #fee2e2;
+        :root { --primary: #2563eb; --dark: #0f172a; --bg: #f1f5f9; --error-bg: #fee2e2; --error-border: #ef4444; }
+        
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--dark); display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        
+        .container { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
+        
+        h1 { color: white; text-align: center; font-size: 26px; margin-bottom: 5px; }
+
+        /* ESPACE PUB À LOUER */
+        .ad-container { width: 100%; margin-bottom: 5px; }
+        .ad-link { text-decoration: none; display: block; transition: 0.3s; }
+        .ad-link:hover { transform: scale(1.02); }
+        .ad-content { 
+            background: #f8fafc; border: 2px dashed #94a3b8; padding: 15px; border-radius: 20px; 
+            text-align: center; position: relative; animation: pulse-border 2s infinite; 
         }
+        .ad-badge { position: absolute; top: 0; left: 0; background: #94a3b8; color: white; font-size: 9px; font-weight: bold; padding: 3px 8px; border-bottom-right-radius: 10px; }
+        .ad-text { font-size: 16px; font-weight: 800; color: #64748b; margin: 5px 0; }
+        .ad-cta { font-size: 12px; color: var(--primary); font-weight: 600; text-decoration: underline; }
+        @keyframes pulse-border { 0%, 100% { border-color: #94a3b8; } 50% { border-color: var(--primary); } }
 
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-        }
-
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            color: #1e293b;
-        }
-
-        h1 { text-align: center; font-size: 24px; margin-bottom: 20px; }
-
-        /* ESPACE PUBLICITÉ */
-        .ad-space {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            color: white;
-            padding: 15px;
-            border-radius: 16px;
-            text-align: center;
-            margin-bottom: 20px;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-            font-weight: bold;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-        .ad-space:hover { transform: scale(1.02); }
-
-        .input-group { background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        /* CARTES ET BLOCS */
+        .card { background: white; padding: 20px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); color: #1e293b; }
+        h2 { text-align: center; font-size: 18px; color: var(--primary); border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-top: 0; }
+        
         label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #64748b; }
-
-        input, select {
-            width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px;
-            font-size: 15px; outline: none; margin-bottom: 10px; box-sizing: border-box;
-        }
-
-        .row { display: flex; gap: 8px; margin-bottom: 8px; padding: 8px; border-radius: 12px; transition: 0.3s; align-items: center; }
-        .row-error { background-color: var(--error); border: 1px solid #ef4444; }
-
+        input, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
+        
+        .row { display: flex; gap: 10px; margin-bottom: 10px; padding: 5px; border-radius: 12px; transition: 0.3s; }
+        .row-error { background-color: var(--error-bg); border: 1px solid var(--error-border); }
+        
+        /* BOUTONS */
         .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-add { background: #f1f5f9; color: var(--primary); border: 2px dashed #cbd5e1; margin-bottom: 10px; }
-        .btn-calc { background: var(--primary); color: white; }
+        .btn-calc { background: var(--primary); color: white; flex: 1; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+        .btn-trash-small { background: #fee2e2; color: #ef4444; width: 50px; height: 50px; border-radius: 12px; border: none; cursor: pointer; font-size: 20px; }
 
-        #res { margin-top: 20px; padding: 20px; border-radius: 16px; background: #f8fafc; text-align: center; display: none; }
+        /* RESULTATS */
+        .res-box { margin-top: 15px; padding: 15px; border-radius: 16px; background: #f8fafc; text-align: center; display: none; border: 1px solid #e2e8f0; }
         .score { font-size: 32px; font-weight: 800; color: var(--primary); }
 
-        /* PROFILE CARD STEEVY */
-        .profile-card {
-            background: #1e293b;
-            color: white;
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-            border-radius: 24px;
-            text-align: center;
-            margin-top: 20px;
-            box-sizing: border-box;
-        }
-        .profile-card h2 { color: #60a5fa; font-size: 18px; }
-        .social-links { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
-        .social-btn {
-            padding: 12px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; color: white;
-        }
-        .btn-wa { background: #25d366; }
-        .btn-google { background: #ea4335; }
-        .btn-trash { background: #fee2e2; color: #ef4444; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; margin-top: 15px; font-size: 20px; }
+        /* PROFILE CARD */
+        .profile-card { background: #1e293b; color: white; padding: 20px; border-radius: 24px; text-align: center; }
+        .social-btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; color: white; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <a href="https://wa.me/509TON_NUMERO?text=Salut%20Steevy,%20je%20souhaite%20en%20savoir%20plus%20sur%20tes%20services" class="ad-space">
-            🚀 Boostez vos projets avec Steevy Dev ! <br> Cliquez ici pour m'écrire sur WhatsApp.
+<div class="container">
+    <h1>🇭🇹 Mon Calculateur</h1>
+
+    <div class="ad-container">
+        <a href="https://wa.me/509XXXXXXXX?text=Salut%20Steevy,%20je%20souhaite%20louer%20l'espace%20pub%20sur%20votre%20site" class="ad-link">
+            <div class="ad-content">
+                <span class="ad-badge">ANNONCE</span>
+                <p class="ad-text">VOTRE PUBLICITÉ ICI</p>
+                <span class="ad-cta">Cliquez ici pour réserver cet espace 🚀</span>
+            </div>
         </a>
+    </div>
 
-        <h1>🇭🇹 Mon Calculateur</h1>
-
-        <div class="input-group">
-            <label>Moyenne d'admission de l'école :</label>
-            <input type="number" id="moy-ecole" value="5.00" step="0.1">
-            
-            <label>Nombre de trimestres :</label>
-            <select id="trimestres">
-                <option value="1">1 Trimestre</option>
-                <option value="2">2 Trimestres</option>
-                <option value="3" selected>3 Trimestres</option>
-            </select>
-        </div>
-
-        <div id="list">
+    <div class="card">
+        <h2>📚 Calculateur de Notes</h2>
+        <div id="list-notes">
             <div class="row">
-                <input type="number" class="note" placeholder="Note" oninput="verifier(this)">
-                <input type="number" class="coeff" placeholder="Coeff" oninput="verifier(this)">
+                <input type="number" class="note" placeholder="Note" oninput="checkRow(this)">
+                <input type="number" class="coeff" placeholder="Coeff" oninput="checkRow(this)">
             </div>
         </div>
+        <button class="btn btn-add" onclick="addN()">+ Ajouter une matière</button>
+        <div style="display:flex; gap:10px;">
+            <button class="btn btn-calc" onclick="calcN()">CALCULER (MOYENNE /10)</button>
+            <button class="btn-trash-small" onclick="resetPart(1)">🗑️</button>
+        </div>
+        <div id="res-n" class="res-box">
+            <span style="font-size:12px; color:#64748b;">Moyenne finale :</span>
+            <div class="score" id="val-n"></div>
+        </div>
+    </div>
 
-        <button class="btn btn-add" onclick="add()">+ Ajouter une matière</button>
-        <button class="btn btn-calc" onclick="calculate()">SIMULER L'ADMISSION</button>
+    <div class="card">
+        <h2>🎯 Simulateur d'Admission</h2>
+        <label>Moyenne de passage école :</label>
+        <input type="number" id="moy-p" value="5.00" step="0.1">
+        
+        <label>Nombre de trimestres total :</label>
+        <select id="nb-t" onchange="genT()">
+            <option value="2">2 Trimestres</option>
+            <option value="3" selected>3 Trimestres</option>
+            <option value="4">4 Trimestres</option>
+            <option value="5">5 Trimestres</option>
+        </select>
 
-        <div id="res">
-            <div class="score" id="score-text"></div>
-            <div id="msg-text" style="margin-top:10px; font-weight:500;"></div>
-            <button class="btn-trash" onclick="location.reload()">🗑️</button>
+        <div id="zone-t"></div>
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button class="btn btn-calc" onclick="sim()">SIMULER L'OBJECTIF</button>
+            <button class="btn-trash-small" onclick="resetPart(2)">🗑️</button>
+        </div>
+
+        <div id="res-s" class="res-box">
+            <div id="status" style="font-weight:bold; font-size:18px;"></div>
+            <div id="detail" style="margin-top:5px; font-size:14px; color:#64748b;"></div>
         </div>
     </div>
 
     <div class="profile-card">
-        <h2>👨‍💻 Contact Développeur</h2>
-        <p>Projet réalisé par Steevy. Contactez-moi pour vos besoins en programmation.</p>
-        <div class="social-links">
-            <a href="https://wa.me/50940614011" class="social-btn btn-wa">💬 WhatsApp : +509 TON_NUMERO</a>
-            <a href="mailto:corvensleysteeveperrier@gmail.com" class="social-btn btn-google">📧 Google : TON_EMAIL@gmail.com</a>
-        </div>
+        <h3 style="margin:0 0 10px 0;">👨‍💻 Steevy Dev</h3>
+        <p style="font-size:13px; color:#94a3b8;">Contactez-moi pour créer vos applications web.</p>
+        <a href="https://wa.me/50940614011" class="social-btn" style="background:#25d366;">💬 WhatsApp : +509...</a>
+        <a href="mailto:corvensleysteeveperrier@email.com" class="social-btn" style="background:#ea4335;">📧 Google : Gmail</a>
     </div>
+</div>
 
-    <script>
-        function verifier(input) {
-            const row = input.parentElement;
-            const n = parseFloat(row.querySelector('.note').value);
-            const c = parseFloat(row.querySelector('.coeff').value);
-            if (!isNaN(n) && !isNaN(c) && n > c) row.classList.add('row-error');
-            else row.classList.remove('row-error');
+<script>
+    // PARTIE CALCULATEUR
+    function checkRow(el){
+        let r=el.parentElement, n=parseFloat(r.querySelector('.note').value), c=parseFloat(r.querySelector('.coeff').value);
+        if(n>c) r.classList.add('row-error'); else r.classList.remove('row-error');
+    }
+    function addN(){
+        let d=document.createElement('div'); d.className='row';
+        d.innerHTML='<input type="number" class="note" placeholder="Note" oninput="checkRow(this)"><input type="number" class="coeff" placeholder="Coeff" oninput="checkRow(this)">';
+        document.getElementById('list-notes').appendChild(d);
+    }
+    function calcN(){
+        let rows=document.querySelectorAll('#list-notes .row'), p=0, c=0, err=false;
+        rows.forEach(r=>{
+            let nv=parseFloat(r.querySelector('.note').value), cv=parseFloat(r.querySelector('.coeff').value);
+            if(!isNaN(nv)&&!isNaN(cv)){ if(nv>cv)err=true; else {p+=nv; c+=cv;}}
+        });
+        if(err){alert("Oups ! Une note dépasse son coefficient."); return;}
+        if(c>0){ document.getElementById('res-n').style.display='block'; document.getElementById('val-n').innerText=((p/c)*10).toFixed(2)+" / 10";}
+    }
+
+    // PARTIE SIMULATEUR
+    function genT(){
+        let z=document.getElementById('zone-t'), n=parseInt(document.getElementById('nb-t').value);
+        z.innerHTML='<label>Moyennes déjà obtenues :</label>';
+        for(let i=1;i<n;i++){
+            let inp=document.createElement('input'); inp.type='number'; inp.className='t-inp'; inp.placeholder=`Trimestre ${i}`; inp.step='0.01';
+            z.appendChild(inp);
         }
+    }
+    function sim(){
+        let passage=parseFloat(document.getElementById('moy-p').value), nTotal=parseInt(document.getElementById('nb-t').value);
+        let inputs=document.querySelectorAll('.t-inp'), somme=0, count=0;
+        inputs.forEach(i=>{ let v=parseFloat(i.value); if(!isNaN(v)){somme+=v; count++;}});
+        
+        let res=document.getElementById('res-s'), st=document.getElementById('status'), det=document.getElementById('detail');
+        res.style.display='block';
+        
+        if(count === 0) { alert("Entre au moins une moyenne passée !"); return; }
 
-        function add() {
-            const div = document.createElement('div');
-            div.className = 'row';
-            div.innerHTML = `<input type="number" class="note" placeholder="Note" oninput="verifier(this)"><input type="number" class="coeff" placeholder="Coeff" oninput="verifier(this)">`;
-            document.getElementById('list').appendChild(div);
-        }
+        let pointsRestants = (passage * nTotal) - somme;
+        let nRestants = nTotal - count;
+        let req = pointsRestants / nRestants;
 
-        function calculate() {
-            const rows = document.querySelectorAll('.row');
-            const target = parseFloat(document.getElementById('moy-ecole').value);
-            let p = 0, c = 0, err = false;
+        if(req <= 0){ st.innerText="Admission assurée ! 🎉"; st.style.color="#15803d"; det.innerText="Tu as déjà atteint les points nécessaires."; }
+        else if(req > 10){ st.innerText="Presque impossible ❌"; st.style.color="#b91c1c"; det.innerText=`Il te faudrait ${req.toFixed(2)}/10 sur le reste de l'année.`; }
+        else { st.innerText=`Objectif : ${req.toFixed(2)} / 10`; st.style.color="#2563eb"; det.innerText=`C'est la note minimale à obtenir sur les ${nRestants} trimestre(s) restant(s).`; }
+    }
 
-            rows.forEach(r => {
-                const nv = parseFloat(r.querySelector('.note').value);
-                const cv = parseFloat(r.querySelector('.coeff').value);
-                if (!isNaN(nv) && !isNaN(cv)) {
-                    if (nv > cv) { err = true; r.classList.add('row-error'); }
-                    else { p += nv; c += cv; }
-                }
-            });
+    function resetPart(n){
+        if(n===1){ document.getElementById('list-notes').innerHTML='<div class="row"><input type="number" class="note" placeholder="Note" oninput="checkRow(this)"><input type="number" class="coeff" placeholder="Coeff" oninput="checkRow(this)"></div>'; document.getElementById('res-n').style.display='none'; }
+        else { genT(); document.getElementById('res-s').style.display='none'; }
+    }
 
-            if (err) { alert("Corrige les lignes en rouge !"); return; }
-            if (c > 0) {
-                const moy10 = (p / c) * 10;
-                document.getElementById('res').style.display = 'block';
-                document.getElementById('score-text').innerText = moy10.toFixed(2) + " / 10";
-                const msg = document.getElementById('msg-text');
-                if (moy10 >= target) {
-                    msg.style.color = "#15803d";
-                    msg.innerText = "Admission probable ! 🎉 Quel excellent travail, continue de viser l'excellence !";
-                } else {
-                    msg.style.color = "#b91c1c";
-                    msg.innerText = "C'est un peu juste... 🚀 Ne baisse pas les bras, concentre-toi sur tes points faibles !";
-                }
-            }
-        }
-    </script>
+    window.onload = genT;
+</script>
 </body>
 </html>
