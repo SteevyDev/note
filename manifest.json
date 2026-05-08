@@ -1,0 +1,15 @@
+{
+  "short_name": "Calculateur",
+  "name": "Calculateur de Notes SteevyDev",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/564/564429.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#e67e22",
+  "background_color": "#ffffff"
+}
