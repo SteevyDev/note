@@ -27,6 +27,55 @@
         .comment { font-size: 14px; color: #64748b; font-style: italic; margin-top: 5px; }
         .profile-card { background: #1e293b; color: white; padding: 20px; border-radius: 24px; text-align: center; }
         .social-btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; color: white; margin-top: 10px; font-weight: bold; }
+  /* Style pour la zone de contact en bas */
+.contact-pro {
+    background: #1e293b; /* Bleu très foncé, très pro */
+    color: white;
+    margin: 20px 15px;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.contact-pro h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.btn-contact-pro {
+    display: inline-block;
+    background: #2563eb;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+/* Style amélioré pour l'espace pub du haut */
+.ad-container {
+    border: 2px dashed #2563eb;
+    background: #f8fafc;
+    margin: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.badge-pub {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background: #2563eb;
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+        
     </style>
     <link rel="manifest" href="manifest.json">
 <script>
@@ -37,19 +86,17 @@
     
 </head>
 <body>
+    <div class="ad-container" id="espace-pub-haut">
+    <span class="badge-pub">ANNONCE</span>
+    <p style="color: #64748b;">Votre publicité ici pour toucher les étudiants.</p>
+    <a href="https://wa.me/50940614011" style="color: #2563eb; font-weight: bold; text-decoration: none; font-size: 14px;">Réserver cet espace →</a>
+</div>
+    
 
 <div class="container">
     <h1>🇭🇹 Mon Calculateur</h1>
 
-    <div class="ad-container">
-        <a href="https://wa.me/50940614011" style="text-decoration:none;">
-            <div class="ad-content">
-                <span class="ad-badge">ANNONCE</span>
-                <p style="font-size:16px; font-weight:800; color:#64748b; margin:5px 0;">VOTRE PUBLICITÉ ICI</p>
-                <span style="font-size:12px; color:var(--primary); font-weight:600;">Réserver cet espace 🚀</span>
-            </div>
-        </a>
-    </div>
+    
 
     <div class="card">
         <h2>📚 Calculateur de Notes</h2>
@@ -73,12 +120,23 @@
         <div id="res-simu" class="res-box"><div id="simu-status" style="font-weight:bold; font-size:20px;"></div><div id="simu-detail" class="comment"></div></div>
     </div>
 
-    <div class="profile-card">
-        <h3 style="margin:0;">👨‍💻 Steevy Dev</h3>
-        <a href="https://wa.me/50940614011" class="social-btn" style="background:#25d366;">WhatsApp</a>
-        <a href="mailto:corvensleysteeveperrier@gmail.com" class="social-btn" style="background:#ea4335;">Gmail</a>
-    </div>
+   <div class="contact-pro">
+    <h3>🚀 Un projet en tête ?</h3>
+    <p style="font-size: 14px; opacity: 0.9; margin: 10px 0;">Je crée des sites web, des menus digitaux et des applications sur mesure.</p>
+    <a href="https://wa.me/50940614011" class="btn-contact-pro">Travailler avec SteevyDev</a>
 </div>
+
+<script>
+    const messagesPub = [
+        "Augmentez votre visibilité ici !",
+        "Place disponible pour votre business.",
+        "Touchez des centaines d'utilisateurs."
+    ];
+    const texteAleatoire = messagesPub[Math.floor(Math.random() * messagesPub.length)];
+    const pAnnonce = document.querySelector('#espace-pub-haut p');
+    if(pAnnonce) pAnnonce.innerText = texteAleatoire;
+</script>
+    
 
 <script>
     function saveAll() {
@@ -164,5 +222,17 @@
     }
     window.onload = loadAll;
 </script>
+<script>
+        // Script de rotation des pubs
+    const messagesPub = [
+        "🚀 Augmentez votre visibilité ici !",
+        "✨ Place disponible pour votre business.",
+        "📊 Touchez des centaines d'étudiants.",
+        "📢 Votre annonce sur cette application !"
+    ];
+    const texteAleatoire = messagesPub[Math.floor(Math.random() * messagesPub.length)];
+    const pAnnonce = document.querySelector('#espace-pub-haut p');
+    if(pAnnonce) { pAnnonce.innerText = texteAleatoire; }
+</script>   
 </body>
 </html>
