@@ -3,135 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur Scolaire Haïti</title>
+    <title>Mon Calculateur 🇭🇹</title>
     <style>
-        :root { --primary: #1a73e8; --danger: #dc3545; --success: #28a745; --dark: #222; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
-        .container { max-width: 400px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: auto; overflow: hidden; }
-        
-        .section { background: #f8f9fa; border-radius: 15px; padding: 15px; width: 85%; margin: 15px auto; border: 1px solid #e1e4e8; }
-        label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 5px; color: #555; }
-        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; font-size: 16px; outline: none; transition: 0.3s; }
-        
-        /* ALERTE ROUGE SI NOTE > COEFF */
-        .input-error { border: 2px solid var(--danger) !important; background-color: #ffeef0; color: var(--danger); }
+        :root {
+            --primary: #2563eb;
+            --dark: #0f172a;
+            --bg: #f1f5f9;
+            --error: #fee2e2;
+        }
 
-        /* BOUTON CALCULER (DÉPLACÉ APRÈS LES NOTES) */
-        .btn-calc { background: var(--primary); color: white; padding: 18px; width: 90%; margin: 10px auto; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; display: block; font-size: 16px; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
 
-        .note-container { display: flex; align-items: center; justify-content: center; width: 90%; margin: 10px auto; gap: 10px; }
-        .note-screen { flex-grow: 1; background: #e9ecef; border-radius: 15px; padding: 25px 0; text-align: center; font-size: 38px; font-weight: bold; color: #333; border: 1px solid #dee2e6; }
-        .btn-clear { background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 10px; padding: 15px; cursor: pointer; font-size: 20px; }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            color: #1e293b;
+        }
 
-        .encouragement { background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; display: none; margin: 10px auto; width: 85%; }
+        h1 { text-align: center; font-size: 24px; margin-bottom: 20px; }
 
-        .btn-reset-all { background: var(--danger); color: white; padding: 15px; width: 90%; margin: 20px auto 10px auto; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; }
+        /* ESPACE PUBLICITÉ */
+        .ad-space {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .ad-space:hover { transform: scale(1.02); }
 
-        .ads-space { border: 2px dashed #ccc; border-radius: 10px; padding: 15px; margin: 15px auto; width: 85%; text-align: center; color: #777; font-size: 13px; text-decoration: none; display: block; }
-        .contact-grid { display: flex; gap: 10px; width: 90%; margin: 10px auto; }
-        .btn-contact { flex: 1; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-size: 12px; font-weight: bold; text-align: center; }
-        .profile-footer { background: var(--dark); color: white; padding: 15px; text-align: center; font-size: 14px; }
+        .input-group { background: #f8fafc; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #64748b; }
+
+        input, select {
+            width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px;
+            font-size: 15px; outline: none; margin-bottom: 10px; box-sizing: border-box;
+        }
+
+        .row { display: flex; gap: 8px; margin-bottom: 8px; padding: 8px; border-radius: 12px; transition: 0.3s; align-items: center; }
+        .row-error { background-color: var(--error); border: 1px solid #ef4444; }
+
+        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-add { background: #f1f5f9; color: var(--primary); border: 2px dashed #cbd5e1; margin-bottom: 10px; }
+        .btn-calc { background: var(--primary); color: white; }
+
+        #res { margin-top: 20px; padding: 20px; border-radius: 16px; background: #f8fafc; text-align: center; display: none; }
+        .score { font-size: 32px; font-weight: 800; color: var(--primary); }
+
+        /* PROFILE CARD STEEVY */
+        .profile-card {
+            background: #1e293b;
+            color: white;
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+            border-radius: 24px;
+            text-align: center;
+            margin-top: 20px;
+            box-sizing: border-box;
+        }
+        .profile-card h2 { color: #60a5fa; font-size: 18px; }
+        .social-links { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .social-btn {
+            padding: 12px; border-radius: 12px; text-decoration: none; font-weight: bold; font-size: 14px; color: white;
+        }
+        .btn-wa { background: #25d366; }
+        .btn-google { background: #ea4335; }
+        .btn-trash { background: #fee2e2; color: #ef4444; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; margin-top: 15px; font-size: 20px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    
-    <div class="section">
-        <label>Note actuelle :</label>
-        <input type="number" id="ma_note" placeholder="Ex: 150" oninput="verifierNote()">
-        <label>Sur (Coefficient) :</label>
-        <input type="number" id="mon_coeff" placeholder="Ex: 200" oninput="verifierNote()">
+    <div class="container">
+        <a href="https://wa.me/509TON_NUMERO?text=Salut%20Steevy,%20je%20souhaite%20en%20savoir%20plus%20sur%20tes%20services" class="ad-space">
+            🚀 Boostez vos projets avec Steevy Dev ! <br> Cliquez ici pour m'écrire sur WhatsApp.
+        </a>
+
+        <h1>🇭🇹 Mon Calculateur</h1>
+
+        <div class="input-group">
+            <label>Moyenne d'admission de l'école :</label>
+            <input type="number" id="moy-ecole" value="5.00" step="0.1">
+            
+            <label>Nombre de trimestres :</label>
+            <select id="trimestres">
+                <option value="1">1 Trimestre</option>
+                <option value="2">2 Trimestres</option>
+                <option value="3" selected>3 Trimestres</option>
+            </select>
+        </div>
+
+        <div id="list">
+            <div class="row">
+                <input type="number" class="note" placeholder="Note" oninput="verifier(this)">
+                <input type="number" class="coeff" placeholder="Coeff" oninput="verifier(this)">
+            </div>
+        </div>
+
+        <button class="btn btn-add" onclick="add()">+ Ajouter une matière</button>
+        <button class="btn btn-calc" onclick="calculate()">SIMULER L'ADMISSION</button>
+
+        <div id="res">
+            <div class="score" id="score-text"></div>
+            <div id="msg-text" style="margin-top:10px; font-weight:500;"></div>
+            <button class="btn-trash" onclick="location.reload()">🗑️</button>
+        </div>
     </div>
 
-    <button class="btn-calc" onclick="calculerNote()">CALCULER & SAUVEGARDER</button>
-    
-    <div class="note-container">
-        <div class="note-screen" id="ecran_note">-- / 10</div>
-        <button class="btn-clear" onclick="effacerCalcul()">🗑️</button>
+    <div class="profile-card">
+        <h2>👨‍💻 Contact Développeur</h2>
+        <p>Projet réalisé par Steevy. Contactez-moi pour vos besoins en programmation.</p>
+        <div class="social-links">
+            <a href="https://wa.me/50940614011" class="social-btn btn-wa">💬 WhatsApp : +509 TON_NUMERO</a>
+            <a href="mailto:corvensleysteeveperrier@gmail.com" class="social-btn btn-google">📧 Google : TON_EMAIL@gmail.com</a>
+        </div>
     </div>
 
-    <div id="msg_encouragement" class="encouragement"></div>
+    <script>
+        function verifier(input) {
+            const row = input.parentElement;
+            const n = parseFloat(row.querySelector('.note').value);
+            const c = parseFloat(row.querySelector('.coeff').value);
+            if (!isNaN(n) && !isNaN(c) && n > c) row.classList.add('row-error');
+            else row.classList.remove('row-error');
+        }
 
-    <div class="section">
-        <strong style="color: var(--primary); display: block; text-align: center; margin-bottom: 10px;">🎯 Simulateur d'Admission</strong>
-        <label>Moyenne de passage :</label>
-        <input type="number" id="moy_ecole" value="5.00" step="0.1">
-        <label>Autres moyennes :</label>
-        <input type="number" class="moy_p" placeholder="Note Trimestre 1">
-        <input type="number" class="moy_p" placeholder="Note Trimestre 2">
-    </div>
+        function add() {
+            const div = document.createElement('div');
+            div.className = 'row';
+            div.innerHTML = `<input type="number" class="note" placeholder="Note" oninput="verifier(this)"><input type="number" class="coeff" placeholder="Coeff" oninput="verifier(this)">`;
+            document.getElementById('list').appendChild(div);
+        }
 
-    <button class="btn-reset-all" onclick="reinitialiserTout()">TOUT RÉINSTALLER</button>
+        function calculate() {
+            const rows = document.querySelectorAll('.row');
+            const target = parseFloat(document.getElementById('moy-ecole').value);
+            let p = 0, c = 0, err = false;
 
-    <a href="https://wa.me/50931535783?text=Bonjour,%20je%20souhaite%20placer%20une%20publicité." class="ads-space">
-        📢 <b>ESPACE PUBLICITAIRE RÉSERVÉ</b><br>
-        Cliquez pour me contacter sur WhatsApp
-    </a>
+            rows.forEach(r => {
+                const nv = parseFloat(r.querySelector('.note').value);
+                const cv = parseFloat(r.querySelector('.coeff').value);
+                if (!isNaN(nv) && !isNaN(cv)) {
+                    if (nv > cv) { err = true; r.classList.add('row-error'); }
+                    else { p += nv; c += cv; }
+                }
+            });
 
-    <div class="contact-grid">
-        <a href="mailto:corvensleysteeveperrier@gmail.com" class="btn-contact" style="background:#db4437;">📧 Compte Google</a>
-        <a href="https://wa.me/40614011" class="btn-contact" style="background:#25d366;">💬 WhatsApp</a>
-    </div>
-
-    <div class="profile-footer">
-        <b>Corvensley Steeve Perrier</b><br>
-        <span style="opacity: 0.7;">Développeur Logiciel 🇭🇹</span>
-    </div>
-</div>
-
-<script>
-function verifierNote() {
-    const n = document.getElementById('ma_note');
-    const c = document.getElementById('mon_coeff');
-    const noteVal = parseFloat(n.value);
-    const coeffVal = parseFloat(c.value);
-
-    // Si la note dépasse le coefficient, on met en rouge
-    if (!isNaN(noteVal) && !isNaN(coeffVal) && noteVal > coeffVal) {
-        n.classList.add('input-error');
-    } else {
-        n.classList.remove('input-error');
-    }
-}
-
-function calculerNote() {
-    const note = parseFloat(document.getElementById('ma_note').value);
-    const coeff = parseFloat(document.getElementById('mon_coeff').value);
-    
-    if (isNaN(note) || isNaN(coeff)) {
-        alert("Veuillez remplir les deux cases !");
-        return;
-    }
-    
-    if (note > coeff) {
-        alert("Erreur : La note ne peut pas être supérieure au coefficient !");
-        return;
-    }
-
-    const resultat = (note / coeff) * 10;
-    document.getElementById('ecran_note').innerText = resultat.toFixed(2) + " / 10";
-    
-    const divMsg = document.getElementById('msg_encouragement');
-    divMsg.style.display = "block";
-    
-    if(resultat >= 8.5) divMsg.innerHTML = "🌟 Excellent ! Quel talent !";
-    else if(resultat >= 7) divMsg.innerHTML = "👏 Très bien ! Continue ainsi !";
-    else if(resultat >= 5) divMsg.innerHTML = "✅ Tu as la moyenne, bien joué !";
-    else divMsg.innerHTML = "❌ Courage, travaille encore plus dur !";
-}
-
-function effacerCalcul() {
-    document.getElementById('ma_note').value = "";
-    document.getElementById('mon_coeff').value = "";
-    document.getElementById('ecran_note').innerText = "-- / 10";
-    document.getElementById('msg_encouragement').style.display = "none";
-    document.getElementById('ma_note').classList.remove('input-error');
-}
-
-function reinitialiserTout() {
-    if(confirm("Effacer toutes les données de la page ?")) location.reload();
-}
-</script>
+            if (err) { alert("Corrige les lignes en rouge !"); return; }
+            if (c > 0) {
+                const moy10 = (p / c) * 10;
+                document.getElementById('res').style.display = 'block';
+                document.getElementById('score-text').innerText = moy10.toFixed(2) + " / 10";
+                const msg = document.getElementById('msg-text');
+                if (moy10 >= target) {
+                    msg.style.color = "#15803d";
+                    msg.innerText = "Admission probable ! 🎉 Quel excellent travail, continue de viser l'excellence !";
+                } else {
+                    msg.style.color = "#b91c1c";
+                    msg.innerText = "C'est un peu juste... 🚀 Ne baisse pas les bras, concentre-toi sur tes points faibles !";
+                }
+            }
+        }
+    </script>
 </body>
 </html>
