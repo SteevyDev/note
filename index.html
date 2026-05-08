@@ -3,137 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur Scolaire Officiel</title>
+    <title>Super Calculateur - Haiti</title>
     <style>
-        :root { --primary: #007bff; --google: #db4437; --whatsapp: #25d366; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 15px; margin: 0; }
-        .container { max-width: 500px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: auto; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
+        .container { max-width: 400px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: auto; padding-bottom: 20px; }
         
-        h2 { color: var(--primary); text-align: center; margin-bottom: 20px; }
-        .section { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #e1e4e8; }
+        /* HEADER STYLE */
+        .btn-blue { background: #1a73e8; color: white; padding: 15px; width: 90%; margin: 15px auto; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; font-size: 16px; }
         
-        label { display: block; margin-top: 10px; font-weight: bold; font-size: 14px; }
-        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        /* NOTE SUR 10 BOX */
+        .note-display { background: #f8f9fa; border: 1px solid #e1e4e8; border-radius: 15px; width: 80%; margin: 10px auto; padding: 30px 0; text-align: center; font-size: 40px; font-weight: bold; color: #333; }
         
-        .matiere-row { display: flex; gap: 8px; margin-bottom: 8px; }
-        button { width: 100%; padding: 15px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        /* SECTION STYLE */
+        .section { background: white; border-radius: 15px; border: 1px solid #e1e4e8; padding: 15px; width: 85%; margin: 15px auto; }
+        .section-title { color: #1a73e8; font-weight: bold; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+        
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; }
+        .input-error { border: 2px solid #dc3545 !important; background-color: #ffeef0; }
 
-        /* ESPACE PUB */
-        .ads-space { margin-top: 20px; padding: 15px; border: 2px dashed #bbb; border-radius: 12px; text-align: center; background: #fff; color: #777; font-weight: bold; }
+        /* MESSAGE ENCOURAGEMENT (VERT) */
+        .bilan-trimestre { background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; display: none; margin: 10px auto; width: 85%; }
 
-        /* ANCIEN FORMAT : BOUTONS CONTACT */
-        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .contact-item { padding: 10px; border-radius: 10px; text-align: center; text-decoration: none; color: white; font-size: 13px; font-weight: bold; }
-        .bg-google { background: var(--google); }
-        .bg-whatsapp { background: var(--whatsapp); }
+        /* BOUTON VERT */
+        .btn-green { background: #28a745; color: white; padding: 15px; width: 90%; margin: 10px auto; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; font-size: 16px; }
 
-        /* RESULTATS ET FÉLICITATIONS */
-        .resultat { margin-top: 20px; padding: 20px; border-radius: 12px; text-align: center; font-weight: bold; display: none; }
-        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-
-        /* PROFILE CARD */
-        .profile-card { margin-top: 25px; background: #333; color: white; padding: 15px; border-radius: 15px; text-align: center; }
-        .profile-card h4 { margin: 5px 0; color: var(--primary); }
+        /* FOOTER & ADS */
+        .ads-space { border: 2px dashed #ccc; border-radius: 10px; padding: 15px; margin: 20px auto; width: 85%; text-align: center; color: #666; font-size: 14px; }
+        .contact-grid { display: flex; gap: 10px; justify-content: center; width: 90%; margin: 10px auto; }
+        .btn-contact { flex: 1; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-size: 14px; font-weight: bold; text-align: center; }
+        .bg-google { background: #db4437; }
+        .bg-whatsapp { background: #25d366; }
+        
+        .profile-footer { background: #222; color: white; padding: 15px; text-align: center; border-radius: 0 0 20px 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>📊 Super Calculateur 🇭🇹</h2>
+    <button class="btn-blue" onclick="calculerNote()">CALCULER & SAUVEGARDER</button>
+    
+    <div class="note-display" id="grosse_note">-- / 10</div>
 
     <div class="section">
-        <label>Moyenne de passage de ton école :</label>
-        <input type="number" id="moy_passage" value="5.00" step="0.1" min="0" max="10">
+        <label>Note du trimestre :</label>
+        <input type="number" id="note_val" placeholder="Note" oninput="verifierNote(this)">
+        <label>Coefficient :</label>
+        <input type="number" id="coeff_val" value="10" oninput="verifierNote(this)">
+    </div>
+
+    <div id="bilan_trim" class="bilan-trimestre"></div>
+
+    <div class="section">
+        <div class="section-title">🎯 Simulateur de Réussite</div>
+        <label>Moyenne de passage école :</label>
+        <input type="number" id="passage" value="5.00" step="0.1">
         
-        <label>Combien de trimestres au total ?</label>
-        <select id="nb_trimestres" onchange="majTrimestres()">
-            <option value="3">3 Trimestres (Classique)</option>
-            <option value="4">4 Trimestres</option>
-            <option value="5">5 Trimestres</option>
-        </select>
+        <label>Moyennes passées :</label>
+        <input type="number" class="passe" placeholder="Moyenne Trimestre 1">
+        <input type="number" class="passe" placeholder="Moyenne Trimestre 2">
     </div>
 
-    <div id="zone_passes" class="section">
-        <div id="inputs_passes"></div>
-    </div>
-
-    <div class="section">
-        <label>Détails du trimestre en cours :</label>
-        <div id="matieres">
-            <div class="matiere-row">
-                <input type="number" class="note" placeholder="Note /10" max="10">
-                <input type="number" class="coeff" placeholder="Coeff" value="1">
-            </div>
-        </div>
-        <button onclick="ajouterMatiere()" style="background:#6c757d; padding: 8px; font-size: 11px;">+ Ajouter une matière</button>
-    </div>
-
-    <button onclick="calculerTout()">CALCULER MON RÉSULTAT</button>
-
-    <div id="bilan" class="resultat"></div>
+    <button class="btn-green" onclick="calculerAdmission()">VÉRIFIER MON ADMISSION</button>
 
     <div class="ads-space">
-        <p>📢 ESPACE PUBLICITAIRE RÉSERVÉ<br><span style="font-size: 11px; font-weight: normal;">Contactez le développeur pour placer votre annonce.</span></p>
+        📢 <b>ESPACE PUBLICITAIRE RÉSERVÉ</b><br>
+        <span style="font-size: 11px;">Contactez le développeur pour placer votre annonce.</span>
     </div>
 
     <div class="contact-grid">
-        <a href="mailto:corvensleysteeveperrier@gmail.com" class="contact-item bg-google">📧 Compte Google</a>
-        <a href="https://wa.me/50940614011" class="contact-item bg-whatsapp">💬 WhatsApp</a>
+        <a href="#" class="btn-corvensleysteeveperrier">📧 Compte Google</a>
+        <a href="https://wa.me/50940614011" class="btn-contact bg-whatsapp">💬 WhatsApp</a>
     </div>
 
-    <div class="profile-card">
-        <h4>Corvensley Steeve Perrier</h4>
-        <p>Développeur Logiciel | Computer Science Student</p>
+    <div class="profile-footer">
+        <b>Corvensley Steeve Perrier</b><br>
+        <span style="font-size: 12px; opacity: 0.8;">Développeur Logiciel 🇭🇹</span>
     </div>
 </div>
 
 <script>
-function majTrimestres() {
-    const total = document.getElementById('nb_trimestres').value;
-    const zone = document.getElementById('inputs_passes');
-    zone.innerHTML = "<strong>Moyennes déjà obtenues :</strong>";
-    for(let i = 1; i < total; i++) {
-        zone.innerHTML += `<input type="number" class="moy_historique" placeholder="Moyenne Trimestre ${i}" step="0.01" style="margin-top:8px;">`;
-    }
+function verifierNote() {
+    const n = document.getElementById('note_val');
+    const c = document.getElementById('coeff_val');
+    if (parseFloat(n.value) > parseFloat(c.value)) n.classList.add('input-error');
+    else n.classList.remove('input-error');
 }
 
-function ajouterMatiere() {
-    const div = document.createElement('div');
-    div.className = 'matiere-row';
-    div.innerHTML = '<input type="number" class="note" placeholder="Note /10" max="10"><input type="number" class="coeff" placeholder="Coeff" value="1">';
-    document.getElementById('matieres').appendChild(div);
-}
-
-function calculerTout() {
-    let totalPoints = 0, totalCoeffs = 0;
-    document.querySelectorAll('.note').forEach((n, i) => {
-        let val = parseFloat(n.value) || 0;
-        let c = parseFloat(document.querySelectorAll('.coeff')[i].value) || 1;
-        totalPoints += (val * c); totalCoeffs += c;
-    });
-
-    let moyActuelle = totalPoints / totalCoeffs;
-    let sommeMoyennes = moyActuelle, nb = 1;
-    document.querySelectorAll('.moy_historique').forEach(p => {
-        if(p.value !== "") { sommeMoyennes += parseFloat(p.value); nb++; }
-    });
-
-    let finale = sommeMoyennes / nb;
-    let passage = parseFloat(document.getElementById('moy_passage').value);
-    let bilan = document.getElementById('bilan');
+function calculerNote() {
+    const note = parseFloat(document.getElementById('note_val').value) || 0;
+    const coeff = parseFloat(document.getElementById('coeff_val').value) || 10;
+    
+    if (note > coeff) { alert("La note dépasse le coefficient !"); return; }
+    
+    const noteSur10 = (note / coeff) * 10;
+    document.getElementById('grosse_note').innerText = noteSur10.toFixed(2) + " / 10";
+    
+    const bilan = document.getElementById('bilan_trim');
     bilan.style.display = "block";
-
-    let messageFelicitation = "";
-    if (finale >= 8) messageFelicitation = "🌟 Excellent ! Tu es un génie !";
-    else if (finale >= 7) messageFelicitation = "👏 Très bon travail, continue !";
-    else if (finale >= passage) messageFelicitation = "✅ Félicitations ! Tu es admis(e).";
-    else messageFelicitation = "❌ Attention ! Il faut travailler davantage.";
-
-    bilan.className = finale >= passage ? "resultat success" : "resultat danger";
-    bilan.innerHTML = `Moyenne Annuelle : ${finale.toFixed(2)} / 10<br>${messageFelicitation}`;
+    
+    // COMMENTAIRE D'ENCOURAGEMENT SUR LA NOTE
+    if(noteSur10 >= 8) bilan.innerHTML = "🌟 Excellent ! Tu es un génie !";
+    else if(noteSur10 >= 6) bilan.innerHTML = "👏 Très bien ! Continue comme ça !";
+    else if(noteSur10 >= 5) bilan.innerHTML = "✅ C'est la moyenne, tu peux faire mieux !";
+    else bilan.innerHTML = "❌ Attention, il faut redoubler d'efforts !";
 }
-majTrimestres();
+
+function calculerAdmission() {
+    // Logique pour l'admission annuelle ici...
+}
 </script>
+
 </body>
 </html>
