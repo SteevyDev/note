@@ -5,69 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon Calculateur 🇭🇹</title>
     <style>
-        :root { 
-            --primary: #2563eb; 
-            --dark: #0f172a; 
-            --bg: #f1f5f9; 
-            --error-bg: #fee2e2; 
-            --error-border: #ef4444; 
-        }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: var(--dark); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 20px; 
-            margin: 0; 
-            color: #1e293b;
-        }
-        
+        :root { --primary: #2563eb; --dark: #0f172a; --bg: #f1f5f9; --error-bg: #fee2e2; --error-border: #ef4444; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--dark); display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; color: #1e293b; }
         .container { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
-        
-        h1 { color: white; text-align: center; font-size: 26px; margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-
-        /* ESPACE PUBLICITAIRE INTACT */
-        .ad-container { width: 100%; }
-        .ad-link { text-decoration: none; display: block; transition: 0.3s; }
-        .ad-link:hover { transform: scale(1.02); }
-        .ad-content { 
-            background: #f8fafc; 
-            border: 2px dashed #94a3b8; 
-            padding: 15px; 
-            border-radius: 20px; 
-            text-align: center; 
-            position: relative; 
-            animation: pulse-border 2s infinite; 
-        }
+        h1 { color: white; text-align: center; font-size: 26px; margin-bottom: 5px; }
+        .ad-content { background: #f8fafc; border: 2px dashed #94a3b8; padding: 15px; border-radius: 20px; text-align: center; position: relative; animation: pulse-border 2s infinite; }
         .ad-badge { position: absolute; top: 0; left: 0; background: #94a3b8; color: white; font-size: 9px; font-weight: bold; padding: 3px 8px; border-bottom-right-radius: 10px; }
-        .ad-text { font-size: 16px; font-weight: 800; color: #64748b; margin: 5px 0; }
-        .ad-cta { font-size: 12px; color: var(--primary); font-weight: 600; text-decoration: underline; }
         @keyframes pulse-border { 0%, 100% { border-color: #94a3b8; } 50% { border-color: var(--primary); } }
-
-        /* CARTES */
         .card { background: white; padding: 20px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         h2 { text-align: center; font-size: 18px; color: var(--primary); border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-top: 0; }
-        
         label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #64748b; }
         input, select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; margin-bottom: 10px; box-sizing: border-box; }
-        
-        .row { display: flex; gap: 10px; margin-bottom: 10px; padding: 5px; border-radius: 12px; transition: 0.3s; }
+        .row { display: flex; gap: 10px; margin-bottom: 10px; padding: 5px; border-radius: 12px; }
         .row-error { background-color: var(--error-bg); border: 1px solid var(--error-border); }
-        
         .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-add { background: #f1f5f9; color: var(--primary); border: 2px dashed #cbd5e1; margin-bottom: 15px; }
-        .btn-calc { background: var(--primary); color: white; flex: 1; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2); }
+        .btn-calc { background: var(--primary); color: white; flex: 1; }
         .btn-trash-small { background: #fee2e2; color: #ef4444; width: 50px; height: 50px; border-radius: 12px; border: none; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; }
-
         .res-box { margin-top: 15px; padding: 15px; border-radius: 16px; background: #f8fafc; text-align: center; display: none; border: 1px solid #e2e8f0; }
         .score { font-size: 32px; font-weight: 800; color: var(--primary); margin: 5px 0; }
-
-        /* PROFILE CARD INTACT */
-        .profile-card { background: #1e293b; color: white; padding: 20px; border-radius: 24px; text-align: center; margin-top: 10px; }
-        .social-btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; color: white; margin-top: 10px; font-weight: bold; transition: 0.3s; }
-        .social-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .comment { font-size: 14px; color: #64748b; font-style: italic; margin-top: 5px; }
+        .profile-card { background: #1e293b; color: white; padding: 20px; border-radius: 24px; text-align: center; }
+        .social-btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; color: white; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -76,11 +35,11 @@
     <h1>🇭🇹 Mon Calculateur</h1>
 
     <div class="ad-container">
-        <a href="https://wa.me/50940614011?text=Bonjour%20Steevy,%20je%20souhaite%20réserver%20l'espace%20pub" class="ad-link">
+        <a href="https://wa.me/50940614011" style="text-decoration:none;">
             <div class="ad-content">
                 <span class="ad-badge">ANNONCE</span>
-                <p class="ad-text">VOTRE PUBLICITÉ ICI</p>
-                <span class="ad-cta">Cliquez pour louer cet espace 🚀</span>
+                <p style="font-size:16px; font-weight:800; color:#64748b; margin:5px 0;">VOTRE PUBLICITÉ ICI</p>
+                <span style="font-size:12px; color:var(--primary); font-weight:600;">Réserver cet espace 🚀</span>
             </div>
         </a>
     </div>
@@ -90,7 +49,10 @@
         <div id="list-notes"><div class="row"><input type="number" class="note" placeholder="Note" oninput="checkNote(this);saveAll()"><input type="number" class="coeff" placeholder="Coeff" oninput="checkNote(this);saveAll()"></div></div>
         <button class="btn btn-add" onclick="addMatiere()">+ Ajouter une matière</button>
         <div style="display:flex; gap:10px;"><button class="btn btn-calc" onclick="calculerNotes()">CALCULER /10</button><button class="btn-trash-small" onclick="resetPart(1)">🗑️</button></div>
-        <div id="res-notes" class="res-box"><div class="score" id="val-moyenne">-- / 10</div></div>
+        <div id="res-notes" class="res-box">
+            <div class="score" id="val-moyenne">-- / 10</div>
+            <div id="comment-notes" class="comment"></div>
+        </div>
     </div>
 
     <div class="card">
@@ -101,7 +63,7 @@
         <select id="nb-trimestres" onchange="genererInputsTrimestres();saveAll()"><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option></select>
         <div id="zone-trimestres"></div>
         <div style="display:flex; gap:10px; margin-top:10px;"><button class="btn btn-calc" onclick="simulerAdmission()">VOIR MON OBJECTIF</button><button class="btn-trash-small" onclick="resetPart(2)">🗑️</button></div>
-        <div id="res-simu" class="res-box"><div id="simu-status" style="font-weight:bold; font-size:18px;"></div><div id="simu-detail" style="margin-top:5px; font-size:14px; color:#64748b;"></div></div>
+        <div id="res-simu" class="res-box"><div id="simu-status" style="font-weight:bold; font-size:20px;"></div><div id="simu-detail" class="comment"></div></div>
     </div>
 
     <div class="profile-card">
@@ -112,40 +74,28 @@
 </div>
 
 <script>
-    // --- NOUVELLE FONCTION MÉMOIRE ---
     function saveAll() {
-        const notes = [];
-        document.querySelectorAll('#list-notes .row').forEach(r => {
-            notes.push({ n: r.querySelector('.note').value, c: r.querySelector('.coeff').value });
-        });
-        const trimestres = [];
-        document.querySelectorAll('.t-inp').forEach(i => trimestres.push(i.value));
+        const notes = []; document.querySelectorAll('#list-notes .row').forEach(r => { notes.push({ n: r.querySelector('.note').value, c: r.querySelector('.coeff').value }); });
+        const trimestres = []; document.querySelectorAll('.t-inp').forEach(i => trimestres.push(i.value));
         const data = { notes, moyP: document.getElementById('moy-passage').value, nbT: document.getElementById('nb-trimestres').value, trimestres };
-        localStorage.setItem('steevyMemoire', JSON.stringify(data));
+        localStorage.setItem('steevyFinalData', JSON.stringify(data));
     }
 
     function loadAll() {
-        const saved = localStorage.getItem('steevyMemoire');
-        if (!saved) { genererInputsTrimestres(); return; }
-        const data = JSON.parse(saved);
-        const container = document.getElementById('list-notes'); container.innerHTML = '';
+        const saved = localStorage.getItem('steevyFinalData'); if (!saved) { genererInputsTrimestres(); return; }
+        const data = JSON.parse(saved); const container = document.getElementById('list-notes'); container.innerHTML = '';
         data.notes.forEach(item => {
             let div = document.createElement('div'); div.className = 'row';
             div.innerHTML = `<input type="number" class="note" value="${item.n}" placeholder="Note" oninput="checkNote(this);saveAll()"><input type="number" class="coeff" value="${item.c}" placeholder="Coeff" oninput="checkNote(this);saveAll()">`;
-            container.appendChild(div);
-            checkNote(div.querySelector('.note'));
+            container.appendChild(div); checkNote(div.querySelector('.note'));
         });
-        document.getElementById('moy-passage').value = data.moyP;
-        document.getElementById('nb-trimestres').value = data.nbT;
-        genererInputsTrimestres();
-        const inputs = document.querySelectorAll('.t-inp');
+        document.getElementById('moy-passage').value = data.moyP; document.getElementById('nb-trimestres').value = data.nbT;
+        genererInputsTrimestres(); const inputs = document.querySelectorAll('.t-inp');
         data.trimestres.forEach((val, index) => { if (inputs[index]) inputs[index].value = val; });
     }
 
-    // --- LOGIQUE INTACTE ---
     function checkNote(el) {
-        let row = el.parentElement;
-        let n = parseFloat(row.querySelector('.note').value), c = parseFloat(row.querySelector('.coeff').value);
+        let row = el.parentElement; let n = parseFloat(row.querySelector('.note').value), c = parseFloat(row.querySelector('.coeff').value);
         if (n > c) row.classList.add('row-error'); else row.classList.remove('row-error');
     }
 
@@ -161,10 +111,17 @@
             let nv = parseFloat(r.querySelector('.note').value), cv = parseFloat(r.querySelector('.coeff').value);
             if (!isNaN(nv) && !isNaN(cv)) { if (nv > cv) err = true; else { p += nv; c += cv; } }
         });
-        if (err) { alert("Note > Coeff !"); return; }
+        if (err) { alert("Note supérieure au coefficient !"); return; }
         if (c > 0) {
+            let moyenne = (p / c) * 10;
             document.getElementById('res-notes').style.display = 'block';
-            document.getElementById('val-moyenne').innerText = ((p / c) * 10).toFixed(2) + " / 10";
+            document.getElementById('val-moyenne').innerText = moyenne.toFixed(2) + " / 10";
+            
+            let com = document.getElementById('comment-notes');
+            if(moyenne >= 8) com.innerText = "Exceptionnel ! Tu es un crack ! 🏆";
+            else if(moyenne >= 6) com.innerText = "Très bien ! Continue sur cette lancée. 👍";
+            else if(moyenne >= 5) com.innerText = "C'est correct, tu as la moyenne. ✨";
+            else com.innerText = "Ne te décourage pas, redouble d'efforts ! 💪";
             saveAll();
         }
     }
@@ -185,10 +142,9 @@
         let res = document.getElementById('res-simu'), st = document.getElementById('simu-status'), det = document.getElementById('simu-detail');
         res.style.display = 'block';
         let req = ((p * nt) - somme) / (nt - count);
-        const msgs = ["C'est faisable ! 💪", "Ne lâche rien ! 🔥", "Tu vas y arriver ! 🚀", "Dernier effort ! ✨"];
-        if (req <= 0) { st.innerText = "Admission assurée ! 🎉"; st.style.color = "#15803d"; det.innerText = "Bravo !"; }
-        else if (req > 10) { st.innerText = "Objectif difficile ❌"; st.style.color = "#b91c1c"; det.innerText = "Donne tout !"; }
-        else { st.innerText = `Objectif : ${req.toFixed(2)} / 10`; st.style.color = "#2563eb"; det.innerText = msgs[Math.floor(Math.random()*msgs.length)]; }
+        if (req <= 0) { st.innerText = "Admission assurée ! 🎉"; st.style.color = "#15803d"; det.innerText = "Bravo, tu as déjà assez de points !"; }
+        else if (req > 10) { st.innerText = "Objectif difficile ❌"; st.style.color = "#b91c1c"; det.innerText = "Rien n'est perdu, bats-toi !"; }
+        else { st.innerText = `Objectif : ${req.toFixed(2)} / 10`; st.style.color = "#2563eb"; det.innerText = "C'est faisable ! Un dernier effort ! 💪"; }
         saveAll();
     }
 
@@ -199,7 +155,6 @@
         } else { genererInputsTrimestres(); document.getElementById('res-simu').style.display = 'none'; }
         saveAll();
     }
-
     window.onload = loadAll;
 </script>
 </body>
