@@ -28,6 +28,13 @@
         .profile-card { background: #1e293b; color: white; padding: 20px; border-radius: 24px; text-align: center; }
         .social-btn { display: block; padding: 12px; border-radius: 12px; text-decoration: none; color: white; margin-top: 10px; font-weight: bold; }
     </style>
+    <link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
+    
 </head>
 <body>
 
