@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Moyenne Universel 🇭🇹</title>
+    <style>
+        :root { --primary: #1a73e8; --success: #25D366; --danger: #d93025; --warning: #ffc107; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); width: 100%; max-width: 480px; }
+        h2 { color: var(--primary); text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 25px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
+        th { text-align: left; font-size: 12px; color: #5f6368; text-transform: uppercase; padding-bottom: 10px; }
+        td { padding: 5px 0; }
+        
+        input, select { width: 90%; padding: 12px; border: 1px solid #dadce0; border-radius: 8px; font-size: 15px; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--primary); background: #f8f9ff; }
+        input.invalid { border-color: var(--danger); background-color: #fce8e6; }
+
+        .btn-calc { background-color: var(--primary); color: white; border: none; padding: 16px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .btn-add { background: #e8f0fe; color: var(--primary); border: 2px dashed var(--primary); padding: 12px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; margin-bottom: 10px; }
+        
+        #resultat, .simulator-section { margin-top: 25px; padding: 20px; border-radius: 12px; background: #f8f9fa; border: 1px solid #eee; }
+        #affichage-moyenne, #sim-target-needed { font-size: 2.2em; font-weight: bold; color: #202124; text-align: center; display: block; }
+        
+        .ad-slot { margin: 25px 0; padding: 15px; background: #fff8e1; border: 2px dashed var(--warning); border-radius: 12px; text-align: center; }
+        .profile-card { margin-top: 20px; padding: 20px; border: 1px solid #dadce0; border-radius: 16px; text-align: center; background: #fff; }
+        .btn-wa-share { background-color: var(--success); color: white; border: none; padding: 14px; border-radius: 30px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 15px; text-decoration: none; display: block; text-align: center; }
+        .contact-links { display: flex; justify-content: center; gap: 10px; margin-top: 10px; }
+        .btn-contact { text-decoration: none; padding: 6px 12px; border-radius: 15px; font-size: 11px; border: 1px solid #dadce0; color: var(--primary); }
+    </style>
+</head>
+<body onload="chargerDonnees()">
+
+<div class="container">
+    <h2>Mon Calculateur 🇭🇹</h2>
+    <p class="subtitle">Calcule ta moyenne sur 10 et simule ta réussite scolaire.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Note obtenue</th>
+                <th>Sur / Coeff</th>
+            </tr>
+        </thead>
+        <tbody id="corps-tableau">
+            </tbody>
+    </table>
+
+    <button class="btn-add" onclick="ajouterLigne()">+ Ajouter une matière</button>
+    <button class="btn-calc" onclick="calculerMoyenne()">CALCULER & SAUVEGARDER</button>
+
+    <div id="resultat">
+        <span id="affichage-moyenne">-- / 10</span>
+        <p id="mention" style="text-align:center; font-weight: 500;"></p>
+    </div>
+
+    <div class="simulator-section">
+        <h4 style="margin-top:0; text-align:center; color: var(--primary);">🎯 Simulateur de Réussite</h4>
+        <label style="font-size: 11px; color: #666;">Trimestres déjà terminés :</label>
+        <select id="trimestres-passes" style="margin-bottom: 10px;">
+            <option value="1">1er Trimestre uniquement</option>
+            <option value="2">1er et 2ème Trimestre</option>
+        </select>
+        <input type="number" id="cur-avg" placeholder="Moyenne actuelle (ex: 4.5)" step="0.1">
+        <input type="number" id="tar-avg" value="5.0" step="0.1" title="Moyenne visée pour l'année">
+        <button class="btn-calc" style="background:#34a853" onclick="simuler()">VOIR L'OBJECTIF</button>
+        
+        <div id="sim-res-box" style="display:none; margin-top:15px; text-align:center">
+            <p style="font-size:12px; margin-bottom:5px;">Moyenne nécessaire pour le reste :</p>
+            <span id="sim-target-needed">--</span>
+            <p id="sim-msg" style="font-size:13px; margin-top:5px;"></p>
+        </div>
+    </div>
+
+    <button class="btn-wa-share" onclick="partager()">Partager sur WhatsApp 🚀</button>
+
+    <div class="ad-slot">
+        <div style="font-weight:bold; color:#856404">🚀 Votre Publicité Ici</div>
+        <p style="font-size:11px; margin: 5px 0;">Atteignez des milliers d'étudiants en Haïti.</p>
+        <a href="https://wa.me/50940614011" style="font-size:12px; color:var(--primary); text-decoration:none; font-weight:bold;">Réserver cet espace</a>
+    </div>
+
+    <div class="profile-card">
+        <div style="font-weight:bold; font-size: 1.1em;">Steevy Développeur</div>
+        <div style="font-size: 12px; color: #666; margin-bottom: 10px;">Futur Informaticien | Haiti 🇭🇹</div>
+        <div class="contact-links">
+            <a href="https://wa.me/50940614011" class="btn-contact">WhatsApp</a>
+            <a href="mailto:corvensleysteeveperrier@gmail.com" class="btn-contact">Email</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function ajouterLigne(n="", c="") {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td><input type="number" class="note" placeholder="Ex: 14" value="${n}" oninput="verifier(this)"></td>
+                        <td><input type="number" class="coeff" placeholder="Ex: 20" value="${c}" oninput="verifier(this)"></td>`;
+        document.getElementById('corps-tableau').appendChild(tr);
+    }
+
+    function verifier(el) {
+        const tr = el.closest('tr');
+        const n = parseFloat(tr.querySelector('.note').value);
+        const c = parseFloat(tr.querySelector('.coeff').value);
+        tr.querySelector('.note').classList.toggle('invalid', n > c);
+    }
+
+    function calculerMoyenne() {
+        let sN = 0, sC = 0, data = [];
+        document.querySelectorAll('#corps-tableau tr').forEach(tr => {
+            const nV = tr.querySelector('.note').value;
+            const cV = tr.querySelector('.coeff').value;
+            if(nV && cV) {
+                sN += parseFloat(nV);
+                sC += parseFloat(cV);
+                data.push({n: nV, c: cV});
+            }
+        });
+        localStorage.setItem('haiti_pro_save', JSON.stringify(data));
+        
+        if(sC > 0) {
+            const moy = (sN / sC) * 10;
+            const aff = document.getElementById('affichage-moyenne');
+            const men = document.getElementById('mention');
+            aff.innerText = moy.toFixed(2) + " / 10";
+            
+            if(moy >= 7.5) { men.innerText = "Exceptionnel ! 🏆"; men.style.color = "#188038"; }
+            else if(moy >= 5) { men.innerText = "Admis ! 🎉"; men.style.color = "#188038"; }
+            else { men.innerText = "Ajourné. Garde courage ! 💪"; men.style.color = "#e37400"; }
+        }
+    }
+
+    function simuler() {
+        const tP = parseInt(document.getElementById('trimestres-passes').value);
+        const cur = parseFloat(document.getElementById('cur-avg').value);
+        const tar = parseFloat(document.getElementById('tar-avg').value);
+        
+        if(isNaN(cur) || isNaN(tar)) return alert("Remplis les moyennes pour simuler !");
+
+        const tR = 3 - tP;
+        const req = ((tar * 3) - (cur * tP)) / tR;
+
+        const box = document.getElementById('sim-res-box');
+        const target = document.getElementById('sim-target-needed');
+        const msg = document.getElementById('sim-msg');
+        
+        box.style.display = "block";
+        
+        if(req > 10) {
+            target.innerText = "⚠️ Impossible";
+            msg.innerText = "L'objectif est trop haut pour cette année.";
+            msg.style.color = "red";
+        } else if(req <= 0) {
+            target.innerText = "0.00 / 10";
+            msg.innerText = "C'est déjà gagné ! Ta moyenne suffit.";
+            msg.style.color = "green";
+        } else {
+            target.innerText = req.toFixed(2) + " / 10";
+            msg.innerText = `Cible à atteindre sur le(s) ${tR} trimestre(s) restant(s).`;
+            msg.style.color = "black";
+        }
+    }
+
+    function chargerDonnees() {
+        const d = JSON.parse(localStorage.getItem('haiti_pro_save'));
+        if(d && d.length > 0) {
+            d.forEach(i => ajouterLigne(i.n, i.c));
+            calculerMoyenne();
+        } else {
+            for(let i=0; i<3; i++) ajouterLigne();
+        }
+    }
+
+    function partager() {
+        const text = "J'utilise ce calculateur pour suivre mes notes en Haïti 🇭🇹. Teste-le aussi : " + window.location.href;
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    }
+</script>
+</body>
+</html>
+  
