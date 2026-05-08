@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculateur Scolaire Pro - Haiti</title>
+    <title>Calculateur Scolaire Haïti</title>
     <style>
-        :root { --primary: #1a73e8; --danger: #dc3545; --success: #28a745; --dark: #222; --warning: #f1c40f; }
+        :root { --primary: #1a73e8; --danger: #dc3545; --success: #28a745; --dark: #222; }
         body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 10px; margin: 0; }
-        .container { max-width: 420px; background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: auto; overflow: hidden; padding-bottom: 5px;}
+        .container { max-width: 400px; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: auto; overflow: hidden; }
         
-        /* SECTIONS */
-        .section { background: #f8f9fa; border-radius: 15px; padding: 15px; width: 88%; margin: 15px auto; border: 1px solid #e1e4e8; position: relative; }
-        .title-sec { font-size: 12px; font-weight: bold; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .section { background: #f8f9fa; border-radius: 15px; padding: 15px; width: 85%; margin: 15px auto; border: 1px solid #e1e4e8; }
+        label { display: block; font-weight: bold; font-size: 14px; margin-bottom: 5px; color: #555; }
+        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; margin-bottom: 10px; font-size: 16px; outline: none; transition: 0.3s; }
         
-        /* BOUTONS CORBEILLE */
-        .btn-reset { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 18px; cursor: pointer; opacity: 0.5; transition: 0.3s; }
-        .btn-reset:hover { opacity: 1; color: var(--danger); transform: scale(1.1); }
+        /* ALERTE ROUGE SI NOTE > COEFF */
+        .input-error { border: 2px solid var(--danger) !important; background-color: #ffeef0; color: var(--danger); }
 
-        input, select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; margin-bottom: 8px; outline: none; }
-        
-        .btn-calc { background: var(--primary); color: white; padding: 18px; width: 92%; margin: 10px auto; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; display: block; font-size: 17px; box-shadow: 0 4px 10px rgba(26,115,232,0.2); }
-        .btn-calc:active { transform: scale(0.97); }
+        /* BOUTON CALCULER (DÉPLACÉ APRÈS LES NOTES) */
+        .btn-calc { background: var(--primary); color: white; padding: 18px; width: 90%; margin: 10px auto; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; display: block; font-size: 16px; }
 
-        /* AFFICHAGE DES RÉSULTATS */
-        .note-screen { width: 90%; background: #ffffff; border-radius: 20px; padding: 20px 0; text-align: center; border: 4px solid #dee2e6; margin: 10px auto; transition: 0.4s; }
-        .target-number { font-size: 38px; font-weight: bold; display: block; color: var(--primary); margin: 5px 0; }
-        .msg-box { text-align: center; font-weight: bold; font-size: 14px; margin-top: 5px; padding: 0 10px; min-height: 20px; }
+        .note-container { display: flex; align-items: center; justify-content: center; width: 90%; margin: 10px auto; gap: 10px; }
+        .note-screen { flex-grow: 1; background: #e9ecef; border-radius: 15px; padding: 25px 0; text-align: center; font-size: 38px; font-weight: bold; color: #333; border: 1px solid #dee2e6; }
+        .btn-clear { background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 10px; padding: 15px; cursor: pointer; font-size: 20px; }
 
-        /* PUB & CONTACTS */
-        .contact-section { background: #fffbe6; border: 2px dashed var(--warning); border-radius: 15px; padding: 15px; width: 88%; margin: 20px auto; text-align: center; }
-        .contact-btns { display: flex; gap: 8px; margin-top: 10px; }
-        .btn-contact { flex: 1; padding: 12px; border-radius: 10px; color: white; text-decoration: none; font-size: 13px; font-weight: bold; }
+        .encouragement { background: #d4edda; color: #155724; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; display: none; margin: 10px auto; width: 85%; }
 
-        /* FOOTER */
-        .profile-footer { background: var(--dark); color: white; padding: 25px 15px; text-align: center; }
+        .btn-reset-all { background: var(--danger); color: white; padding: 15px; width: 90%; margin: 20px auto 10px auto; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; display: block; }
+
+        .ads-space { border: 2px dashed #ccc; border-radius: 10px; padding: 15px; margin: 15px auto; width: 85%; text-align: center; color: #777; font-size: 13px; text-decoration: none; display: block; }
+        .contact-grid { display: flex; gap: 10px; width: 90%; margin: 10px auto; }
+        .btn-contact { flex: 1; padding: 12px; border-radius: 8px; color: white; text-decoration: none; font-size: 12px; font-weight: bold; text-align: center; }
+        .profile-footer { background: var(--dark); color: white; padding: 15px; text-align: center; font-size: 14px; }
     </style>
 </head>
 <body>
@@ -41,155 +38,100 @@
 <div class="container">
     
     <div class="section">
-        <button class="btn-reset" onclick="resetPartie1()" title="Tout effacer">🗑️</button>
-        <div class="title-sec">1. Notes du Trimestre Actuel</div>
-        <div id="liste_notes">
-            <div style="display: flex; gap: 10px; margin-bottom: 8px;">
-                <input type="number" class="input_note" placeholder="Note" inputmode="decimal">
-                <input type="number" class="input_coeff" placeholder="Coeff" inputmode="decimal">
-            </div>
-        </div>
-        <button onclick="ajouterLigne()" style="background:none; border:none; color:var(--primary); font-weight:bold; cursor:pointer; font-size:13px;">+ Ajouter une matière</button>
-        
-        <button class="btn-calc" onclick="calculerTrimestre()" style="background: #34a853; margin-top:15px;">CALCULER MA MOYENNE</button>
-        
-        <div id="res_trim_box" style="text-align: center; margin-top:10px; display:none;">
-            <div id="val_trim" style="font-size: 26px; font-weight: bold; color: var(--success);">--</div>
-            <div id="msg_trim" class="msg-box"></div>
-        </div>
+        <label>Note actuelle :</label>
+        <input type="number" id="ma_note" placeholder="Ex: 150" oninput="verifierNote()">
+        <label>Sur (Coefficient) :</label>
+        <input type="number" id="mon_coeff" placeholder="Ex: 200" oninput="verifierNote()">
     </div>
+
+    <button class="btn-calc" onclick="calculerNote()">CALCULER & SAUVEGARDER</button>
+    
+    <div class="note-container">
+        <div class="note-screen" id="ecran_note">-- / 10</div>
+        <button class="btn-clear" onclick="effacerCalcul()">🗑️</button>
+    </div>
+
+    <div id="msg_encouragement" class="encouragement"></div>
 
     <div class="section">
-        <button class="btn-reset" onclick="resetPartie2()" title="Tout effacer">🗑️</button>
-        <div class="title-sec">2. Objectif pour Réussir l'année</div>
-        <label style="font-size: 11px; color:#666;">Nombre de trimestres total :</label>
-        <select id="nb_trimestres" onchange="genererInputsTrimestres()">
-            <option value="2">Moyenne sur 2 trimestres</option>
-            <option value="3" selected>Moyenne sur 3 trimestres</option>
-            <option value="4">Moyenne sur 4 trimestres</option>
-        </select>
-        
-        <div id="zone_trimestres" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top:5px;"></div>
-        
-        <div style="margin-top:10px;">
-            <label style="font-size: 11px; color:#666;">Moyenne de passage exigée :</label>
-            <input type="number" id="moy_passage" value="5.00" step="0.1" style="width: 80px; text-align: center; display:block;">
-        </div>
-
-        <button class="btn-calc" onclick="calculerObjectif()">QUELLE NOTE FAUT-IL ?</button>
+        <strong style="color: var(--primary); display: block; text-align: center; margin-bottom: 10px;">🎯 Simulateur d'Admission</strong>
+        <label>Moyenne de passage :</label>
+        <input type="number" id="moy_ecole" value="5.00" step="0.1">
+        <label>Autres moyennes :</label>
+        <input type="number" class="moy_p" placeholder="Note Trimestre 1">
+        <input type="number" class="moy_p" placeholder="Note Trimestre 2">
     </div>
 
-    <div class="note-screen" id="ecran_final">
-        <span id="label_final" style="font-size: 14px; color: #666;">En attente de calcul...</span>
-        <span id="nombre_cible" class="target-number">-- / 10</span>
-        <div id="msg_final" class="msg-box"></div>
-    </div>
+    <button class="btn-reset-all" onclick="reinitialiserTout()">TOUT RÉINSTALLER</button>
 
-    <div class="contact-section">
-        <div style="font-size: 10px; color: #856404; font-weight: bold; margin-bottom: 5px;">SERVICES & PUBLICITÉ</div>
-        <p style="font-size: 12px; color: #856404; margin: 5px 0;">Besoin d'un site web ou d'un espace pub ?</p>
-        <div class="contact-btns">
-            <a href="https://wa.me/509406a4011?text=Bonjour%20Steeve,%20je%20vous%20contacte%20pour%20un%20projet" class="btn-contact" style="background:#25d366;">WhatsApp</a>
-            <a href="mailto:corvensleysteeveperrier@gmail.com" class="btn-contact" style="background:#db4437;">Gmail</a>
-        </div>
+    <a href="https://wa.me/50931535783?text=Bonjour,%20je%20souhaite%20placer%20une%20publicité." class="ads-space">
+        📢 <b>ESPACE PUBLICITAIRE RÉSERVÉ</b><br>
+        Cliquez pour me contacter sur WhatsApp
+    </a>
+
+    <div class="contact-grid">
+        <a href="mailto:corvensleysteeveperrier@gmail.com" class="btn-contact" style="background:#db4437;">📧 Compte Google</a>
+        <a href="https://wa.me/40614011" class="btn-contact" style="background:#25d366;">💬 WhatsApp</a>
     </div>
 
     <div class="profile-footer">
-        <div style="font-size: 17px; font-weight: bold;">Corvensley Steeve Perrier</div>
-        <div style="opacity: 0.8; font-size: 13px; margin-top: 4px;">Développeur Logiciel 🇭🇹</div>
+        <b>Corvensley Steeve Perrier</b><br>
+        <span style="opacity: 0.7;">Développeur Logiciel 🇭🇹</span>
     </div>
 </div>
 
 <script>
-let moyenneTrimActuel = 0;
+function verifierNote() {
+    const n = document.getElementById('ma_note');
+    const c = document.getElementById('mon_coeff');
+    const noteVal = parseFloat(n.value);
+    const coeffVal = parseFloat(c.value);
 
-function ajouterLigne() {
-    const div = document.createElement('div');
-    div.style = "display: flex; gap: 10px; margin-bottom: 8px;";
-    div.innerHTML = `<input type="number" class="input_note" placeholder="Note" inputmode="decimal">
-                     <input type="number" class="input_coeff" placeholder="Coeff" inputmode="decimal">`;
-    document.getElementById('liste_notes').appendChild(div);
-}
-
-function resetPartie1() {
-    document.getElementById('liste_notes').innerHTML = `<div style="display: flex; gap: 10px; margin-bottom: 8px;"><input type="number" class="input_note" placeholder="Note" inputmode="decimal"><input type="number" class="input_coeff" placeholder="Coeff" inputmode="decimal"></div>`;
-    document.getElementById('res_trim_box').style.display = "none";
-    moyenneTrimActuel = 0;
-}
-
-function resetPartie2() {
-    const m = document.getElementsByClassName('moy_passee');
-    for(let i=0; i<m.length; i++) m[i].value = "";
-    document.getElementById('nombre_cible').innerText = "-- / 10";
-    document.getElementById('msg_final').innerHTML = "";
-    document.getElementById('ecran_final').style.borderColor = "#dee2e6";
-}
-
-function calculerTrimestre() {
-    const notes = document.getElementsByClassName('input_note');
-    const coeffs = document.getElementsByClassName('input_coeff');
-    let sN = 0, sC = 0;
-    for (let i = 0; i < notes.length; i++) {
-        sN += parseFloat(notes[i].value) || 0;
-        sC += parseFloat(coeffs[i].value) || 0;
-    }
-    if (sC === 0) return alert("Veuillez entrer vos notes !");
-    
-    moyenneTrimActuel = (sN / sC) * 10;
-    document.getElementById('res_trim_box').style.display = "block";
-    document.getElementById('val_trim').innerText = moyenneTrimActuel.toFixed(2) + " / 10";
-    
-    const msg = document.getElementById('msg_trim');
-    if(moyenneTrimActuel >= 8) msg.innerHTML = "🌟 Excellent travail !";
-    else if(moyenneTrimActuel >= 5) msg.innerHTML = "👏 Tu as la moyenne, continue !";
-    else msg.innerHTML = "💪 Ne lâche rien, travaille plus dur !";
-    msg.style.color = moyenneTrimActuel >= 5 ? "var(--success)" : "var(--danger)";
-}
-
-function genererInputsTrimestres() {
-    const nb = parseInt(document.getElementById('nb_trimestres').value);
-    const zone = document.getElementById('zone_trimestres');
-    zone.innerHTML = "";
-    for (let i = 1; i < nb; i++) {
-        zone.innerHTML += `<input type="number" class="moy_passee" placeholder="Moy T${i}" step="0.01" inputmode="decimal">`;
-    }
-}
-
-function calculerObjectif() {
-    if (moyenneTrimActuel === 0) { alert("Calculez d'abord votre moyenne en partie 1 !"); return; }
-    
-    const nbP = parseInt(document.getElementById('nb_trimestres').value);
-    const moyP = document.getElementsByClassName('moy_passee');
-    let sommeM = moyenneTrimActuel;
-    for (let i = 0; i < moyP.length; i++) { sommeM += parseFloat(moyP[i].value) || 0; }
-
-    const cible = (parseFloat(document.getElementById('moy_passage').value) * nbP) - sommeM;
-    
-    const ecran = document.getElementById('ecran_final');
-    const nCible = document.getElementById('nombre_cible');
-    const msgF = document.getElementById('msg_final');
-    document.getElementById('label_final').innerText = "Note nécessaire pour réussir :";
-    
-    if(cible <= 0) {
-        nCible.innerText = "DÉJÀ ADMIS ✅";
-        nCible.style.color = "var(--success)";
-        ecran.style.borderColor = "var(--success)";
-        msgF.innerHTML = "Félicitations ! Ton passage est déjà assuré.";
-    } else if(cible <= 10) {
-        nCible.innerText = cible.toFixed(2) + " / 10";
-        nCible.style.color = "var(--primary)";
-        ecran.style.borderColor = "var(--primary)";
-        msgF.innerHTML = "C'est possible ! Donne tout au dernier trimestre.";
+    // Si la note dépasse le coefficient, on met en rouge
+    if (!isNaN(noteVal) && !isNaN(coeffVal) && noteVal > coeffVal) {
+        n.classList.add('input-error');
     } else {
-        nCible.innerText = cible.toFixed(2) + " / 10";
-        nCible.style.color = "var(--danger)";
-        ecran.style.borderColor = "var(--danger)";
-        msgF.innerHTML = "Attention, l'objectif semble difficile à atteindre.";
+        n.classList.remove('input-error');
     }
-    msgF.style.color = nCible.style.color;
 }
 
-window.onload = genererInputsTrimestres;
+function calculerNote() {
+    const note = parseFloat(document.getElementById('ma_note').value);
+    const coeff = parseFloat(document.getElementById('mon_coeff').value);
+    
+    if (isNaN(note) || isNaN(coeff)) {
+        alert("Veuillez remplir les deux cases !");
+        return;
+    }
+    
+    if (note > coeff) {
+        alert("Erreur : La note ne peut pas être supérieure au coefficient !");
+        return;
+    }
+
+    const resultat = (note / coeff) * 10;
+    document.getElementById('ecran_note').innerText = resultat.toFixed(2) + " / 10";
+    
+    const divMsg = document.getElementById('msg_encouragement');
+    divMsg.style.display = "block";
+    
+    if(resultat >= 8.5) divMsg.innerHTML = "🌟 Excellent ! Quel talent !";
+    else if(resultat >= 7) divMsg.innerHTML = "👏 Très bien ! Continue ainsi !";
+    else if(resultat >= 5) divMsg.innerHTML = "✅ Tu as la moyenne, bien joué !";
+    else divMsg.innerHTML = "❌ Courage, travaille encore plus dur !";
+}
+
+function effacerCalcul() {
+    document.getElementById('ma_note').value = "";
+    document.getElementById('mon_coeff').value = "";
+    document.getElementById('ecran_note').innerText = "-- / 10";
+    document.getElementById('msg_encouragement').style.display = "none";
+    document.getElementById('ma_note').classList.remove('input-error');
+}
+
+function reinitialiserTout() {
+    if(confirm("Effacer toutes les données de la page ?")) location.reload();
+}
 </script>
 </body>
 </html>
